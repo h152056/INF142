@@ -14,50 +14,46 @@ public class Klient {
     Klient mottar svar fra WPS, evt. feilmelding.
     */
 
-    private Socket socket = null;
-    private DataInputStream input = null;
-    private DataOutputStream out = null;
+    //private Socket socket = null;
+    public static void main(String[] args) {
+        //Lager socket
+        DatagramSocket klientSocket = new DatagramSocket();
 
-    public Klient (String addresse, int port){
-        try{
-            socket  = new Socket(addresse, port);
-            System.out.println("Tilkoblet");
+        //Oversetter servernavn til IP adresse ved bruk av DNS
+        InetAddress IPAddress = InetAddress.getByName("");
 
-            input = new DataInputStream(System.in);
+        //Lager inputtstrøm
+        BufferedReader inFraBruker = new BufferedReader(new InputStreamReader(System.in));
 
-            out = new DataOutputStream(socket.getOutputStream());
+        byte[] sendData = new byte[1024];
+        byte[] receiveData = new byte[1024];
 
-         //Error dersom portnummer i bruk allerede.
-        }catch (BindException e){
-            System.err.print(e);
-            //Retry? close?
+        try {
+            String line = inFraBruker.readLine();
+        }catch (IOException j){
+            System.out.println(j);
+        }
+        sendData = line.getBytes();
 
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 5000);
+        try {
+            klientSocket.send(sendPacket);
         }catch (IOException i){
-            System.err.println(i);
+            System.out.println(i);
         }
-
-        String line = "";
-        while(!line.equals("over")){
-            try{
-                line = input.readUTF();
-                out.writeUTF(line);
-
-            }catch(IOException i){
-                System.err.println(i);
-            }
-        }
+        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length):
         try{
-            input.close();
-            out.close();
-            socket.close();
-
-        }catch(IOException i){
-            System.err.println(i);
+            klientSocket.receive(receivePacket);
+        }catch (IOException k){
+            System.out.println(k);
         }
-    }
 
-    public static void main(String[] args) throws Exception{
-        Klient klient = new Klient("158.37.233.27", 5000);
+        String modifisertSetning = new String(receivePacket.getData());
+
+        System.out.println("FROM SERVER:" + modifisertSetning);
+        klientSocket.close();
+
+
 
     }
 }
