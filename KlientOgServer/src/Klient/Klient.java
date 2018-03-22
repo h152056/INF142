@@ -20,29 +20,34 @@ public class Klient {
         DatagramSocket klientSocket = new DatagramSocket();
 
         //Oversetter servernavn til IP adresse ved bruk av DNS
-        InetAddress IPAddress = InetAddress.getByName("127.0.0.1");
+        InetAddress IPAddress = InetAddress.getByName("");
+
+        //Port til server
+        int serverPort = 8000;
 
         //Lager inputtstrøm
-        BufferedReader inFraBruker = new BufferedReader(new InputStreamReader(System.in));
-
+        BufferedReader brukerInput = new BufferedReader(new InputStreamReader(System.in));
         byte[] sendData = new byte[1024];
         byte[] receiveData = new byte[1024];
 
-        String line = inFraBruker.readLine();
+       // String stinavn = new URL("").getPath(); henter stinavn
 
+        String line = brukerInput.readLine();
         sendData = line.getBytes();
-        //Lager datagram (data, lengde, IP adr, port
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 5000);
-        //Sender datagram til server
+
+        //Lager datagram og sender til server
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 80);
         klientSocket.send(sendPacket);
 
+        //Oppretter datagram som kan motta fra server, og mottar datagram
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        //Les datagram fra server
         klientSocket.receive(receivePacket);
 
-        String modifisertSetning = new String(receivePacket.getData());
+        //Oppretter string for motatt svar.
+        String svar = new String(receivePacket.getData());
 
-        System.out.println("FROM SERVER:" + modifisertSetning);
+        //Printer melding fra server og lukker socket.
+        System.out.println("FROM SERVER:" + svar);
         klientSocket.close();
 
 
