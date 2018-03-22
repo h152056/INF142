@@ -14,7 +14,6 @@ public class Klient {
     Klient mottar svar fra WPS, evt. feilmelding.
     */
 
-    //private Socket socket = null;
     public static void main(String[] args)throws Exception {
         //Lager socket
         DatagramSocket klientSocket = new DatagramSocket();
@@ -29,8 +28,6 @@ public class Klient {
         BufferedReader brukerInput = new BufferedReader(new InputStreamReader(System.in));
         byte[] sendData = new byte[1024];
         byte[] receiveData = new byte[1024];
-
-       // String stinavn = new URL("").getPath(); henter stinavn
 
         String line = brukerInput.readLine();
         sendData = line.getBytes();
@@ -47,7 +44,7 @@ public class Klient {
         String svar = new String(receivePacket.getData());
 
         //Printer melding fra server og lukker socket.
-        System.out.println("FROM SERVER:" + svar);
+        System.out.println("FRA SERVER:" + svar);
         klientSocket.close();
 
 
