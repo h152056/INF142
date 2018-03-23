@@ -3,16 +3,6 @@ import java.net.*;
 import java.io.*;
 
 public class Klient {
-    /*
-    Kommunisere med WPS ved hjelp av UDP/datagramsocketer
-
-    Sende headerinformasjon med http, angitt ved en tekststreng, til WPS.
-
-    Skal beskrive et filnavn/stinavn som skal hentes på WPS, dersom klient ikke
-    oppgir stinavn skal WPS bruke "/" som default stinavn.
-
-    Klient mottar svar fra WPS, evt. feilmelding.
-    */
 
     public static void main(String[] args)throws Exception {
         //Lager socket
@@ -29,8 +19,8 @@ public class Klient {
         byte[] sendData = new byte[1024];
         byte[] receiveData = new byte[1024];
 
-        String line = brukerInput.readLine();
-        sendData = line.getBytes();
+        String message = brukerInput.readLine();
+        sendData = message.getBytes();
 
         //Lager datagram og sender til server
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 80);

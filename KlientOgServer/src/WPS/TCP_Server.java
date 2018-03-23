@@ -1,12 +1,13 @@
-package WPS;
-import javax.xml.crypto.Data;
+/*package WPS;
 import java.io.*;
 import java.net.*;
 
 public class TCP_Server {
     public static void main(String[] args)throws Exception{
+        System.out.println("Start server:");
 
         Socket tcpSocket = new Socket(url, 80);
+
         System.out.println(tcpSocket.getInetAddress().getHostAddress());
         System.out.println(tcpSocket.getInetAddress().getHostName());
 
@@ -36,3 +37,4 @@ public class TCP_Server {
         tcpSocket.close();
     }
 }
+*/
