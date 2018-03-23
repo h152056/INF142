@@ -23,7 +23,7 @@ public class Klient {
         sendData = message.getBytes();
 
         //Lager datagram og sender til server
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 80);
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, 8000);
         klientSocket.send(sendPacket);
 
         //Oppretter datagram som kan motta fra server, og mottar datagram
