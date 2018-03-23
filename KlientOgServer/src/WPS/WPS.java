@@ -42,7 +42,7 @@ public class WPS {
             tilWebServer.writeBytes("HEAD / HTTP/1.1\r\n");
             tilWebServer.writeBytes("Host: " + motatt + "\r\n");
             tilWebServer.writeBytes("\r\n");
-            tilWebServer.flush();
+            
 
             Socket tcpSocket = new Socket(motatt, 80);
             DataOutputStream ut = new DataOutputStream(tcpSocket.getOutputStream());
@@ -50,7 +50,7 @@ public class WPS {
             ut.writeBytes("HEAD / HttP/1.1\r\n");
             ut.writeBytes("Host: " + motatt.split(motatt, motatt.length()) + "\r\n");
             ut.writeBytes("\r\n");
-            ut.flush();
+
 
             //Sender svar til klient
             String answer = "";
