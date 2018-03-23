@@ -40,7 +40,7 @@ public class Klient {
 
         //Printer melding fra server og lukker socket.
         System.out.println("FRA SERVER:" + svar);
-        klientSocket.close();
+        //klientSocket.close();
 
 
     }

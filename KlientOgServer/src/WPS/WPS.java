@@ -23,7 +23,7 @@ public class WPS {
             //Lager plass for motatt datagram
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
-            //Mottar datagram
+            //Mottar datagram: Får error her som sier "Socket closed".
             server.receive(receivePacket);
 
             //Melding motatt, oversetter til IP adresse
