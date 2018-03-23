@@ -16,10 +16,15 @@ public class Klient {
 
         //Lager inputtstrøm
         BufferedReader brukerInput = new BufferedReader(new InputStreamReader(System.in));
+
         byte[] sendData = new byte[1024];
         byte[] receiveData = new byte[1024];
 
         String message = brukerInput.readLine();
+        if(!message.equals(message + "/")){
+            message += "/";
+        }
+
         sendData = message.getBytes();
 
         //Lager datagram og sender til server

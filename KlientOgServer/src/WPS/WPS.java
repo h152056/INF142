@@ -1,5 +1,4 @@
 package WPS;
-import javax.xml.crypto.Data;
 import java.io.*;
 import java.net.*;
 
@@ -14,7 +13,8 @@ public class WPS {
 
         System.out.println("IP: " + InetAddress.getLocalHost().toString());
         System.out.println("Port: " + serverPort);
-        
+
+        Socket tcp = new Socket("www.vg.no", 80);
         while (true) {
 
             byte[] sendData = new byte[1024];
@@ -23,13 +23,11 @@ public class WPS {
             //Lager plass for motatt datagram
             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
-            //Melding motatt, oversetter til IP adresse
-            String motatt = new String(receivePacket.getData());
-
             //Mottar datagram
             server.receive(receivePacket);
 
-            Socket tcp = new Socket(motatt.trim(), 80);
+            //Melding motatt, oversetter til IP adresse
+            String motatt = new String(receivePacket.getData());
 
             //Henter avsenderens IP-adresse og portnr. fra receivePacket.
             InetAddress IPAddress = receivePacket.getAddress();
@@ -47,11 +45,18 @@ public class WPS {
             tilWebServer.flush();
 
             //Sender svar til klient
-            String answer;
-            answer = fraWebServer.readLine();
-            System.out.println(answer);
+            String svar = "";
+            //svar = fraWebServer.readLine();
+            //System.out.println(svar);
+            StringBuilder strbld = new StringBuilder();
+            String r = fraWebServer.readLine();
+            while(r!=null){
+                strbld.append(r + "\n");
+                r = fraWebServer.readLine();
+            }
+            svar = strbld.toString();
 
-            sendData = answer.getBytes();
+            sendData = svar.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
             server.send(sendPacket);
 
