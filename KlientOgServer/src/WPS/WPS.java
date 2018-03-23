@@ -14,27 +14,28 @@ public class WPS {
 
         System.out.println("IP: " + InetAddress.getLocalHost().toString());
         System.out.println("Port: " + serverPort);
-
-        byte[] sendData = new byte[1024];
-        byte[] receiveData = new byte[1024];
-
-        //Lager plass for motatt datagram
-        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-
-        //Melding motatt, oversetter til IP adresse
-        String motatt = new String(receivePacket.getData());
-
-        //Mottar datagram
-        server.receive(receivePacket);
-
-        Socket tcp = new Socket("www.vg.no", 80);
-
-        //Henter avsenderens IP-adresse og portnr. fra receivePacket.
-        InetAddress IPAddress = receivePacket.getAddress();
-        System.out.println("Packet motatt fra: " + IPAddress.getHostName());
-        int port = receivePacket.getPort();
-
+        
         while (true) {
+
+            byte[] sendData = new byte[1024];
+            byte[] receiveData = new byte[1024];
+
+            //Lager plass for motatt datagram
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+
+            //Melding motatt, oversetter til IP adresse
+            String motatt = new String(receivePacket.getData());
+
+            //Mottar datagram
+            server.receive(receivePacket);
+
+            Socket tcp = new Socket(motatt.trim(), 80);
+
+            //Henter avsenderens IP-adresse og portnr. fra receivePacket.
+            InetAddress IPAddress = receivePacket.getAddress();
+            System.out.println("Packet motatt fra: " + IPAddress.getHostName());
+            int port = receivePacket.getPort();
+
             System.out.println("Received: " + motatt);
 
             DataOutputStream tilWebServer = new DataOutputStream(tcp.getOutputStream());
@@ -55,8 +56,10 @@ public class WPS {
             server.send(sendPacket);
 
             tcp.close();
+            server.close();
 
         }
+
 
     }
 }
